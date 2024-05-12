@@ -30,19 +30,7 @@ jobs:
         with:
           version: 8
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
-          cache: 'pnpm'
-
-        # BUG: (workaround) Task cli not correctly installed through npm
-      - name: Install Task
-        uses: arduino/setup-task@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: pnpm install --frozen-lockfile
+      - run: nix develop --command pnpm install --frozen-lockfile
 
       # If there are changesets, open a PR with the new versions
       - name: Create Release Pull Request
